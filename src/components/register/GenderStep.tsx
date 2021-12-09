@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -17,20 +17,22 @@ const GenderStep = () => {
   return (
     <Controller
       render={({ field }) => (
-        <FormControl error={Boolean(errors.gender)} fullWidth>
-          <Select
-            {...field}
-            labelId="gender-select-label"
-            id="gender-select"
-            error={Boolean(errors.gender)}
-            variant="filled"
-          >
-            {genders.map((gender) => (
-              <MenuItem value={gender.key}>{t(gender.label)}</MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>{errors.gender?.message}</FormHelperText>
-        </FormControl>
+        <TextField
+          id="gender-select"
+          select
+          label={t("Gender")}
+          fullWidth
+          variant="filled"
+          error={Boolean(errors.gender)}
+          helperText={errors.gender?.message}
+          {...field}
+        >
+          {genders.map((option) => (
+            <MenuItem key={option.key} value={option.key}>
+              {t(option.label)}
+            </MenuItem>
+          ))}
+        </TextField>
       )}
       control={control}
       name="gender"

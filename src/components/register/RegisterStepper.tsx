@@ -12,6 +12,10 @@ import PasswordStep from "./PasswordStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
+const StepperExtended = styled(Stepper)(({ theme }) => ({
+  overflowX: "auto",
+}));
+
 const RegisterForm = styled("form")(({ theme }) => ({
   padding: theme.spacing(4),
 }));
@@ -48,7 +52,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
 
   return (
     <RegisterStepperRoot sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep}>
+      <StepperExtended activeStep={activeStep}>
         {steps.map((step, index) => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: {
@@ -60,7 +64,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
             </Step>
           );
         })}
-      </Stepper>
+      </StepperExtended>
       <FormProvider {...form}>
         <RegisterForm onSubmit={handleSubmit(onSubmit)}>
           {activeStep === 0 && <NameStep />}
