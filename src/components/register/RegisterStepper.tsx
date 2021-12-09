@@ -1,6 +1,8 @@
+import { LoadingButton } from "@mui/lab";
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NameStep from "components/register/NameStep";
+import { useAuth } from "composables/useAuth";
 import * as React from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -37,6 +39,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
   form,
   onSubmit,
 }) => {
+  const { registerLoading } = useAuth();
   const { handleSubmit } = form;
   const { t } = useTranslation();
 
@@ -85,9 +88,13 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
                 {activeStep === steps.length - 1 ? (
-                  <Button type="submit" variant="contained">
+                  <LoadingButton
+                    type="submit"
+                    loading={registerLoading}
+                    variant="contained"
+                  >
                     {t("Register")}
-                  </Button>
+                  </LoadingButton>
                 ) : (
                   <Button onClick={handleNext}>{t("Next")}</Button>
                 )}

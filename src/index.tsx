@@ -1,4 +1,5 @@
 import { CssBaseline } from "@mui/material";
+import "firebase";
 import CustomThemeProvider from "providers/CustomThemeProvider";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -12,12 +13,12 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <CustomThemeProvider>
+      <CustomThemeProvider>
+        <BrowserRouter>
           <CssBaseline />
           <App />
-        </CustomThemeProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </CustomThemeProvider>
     </I18nextProvider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,8 +1,9 @@
 import { TextField } from "@mui/material";
-import * as React from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const EmailStep = () => {
+  const { t } = useTranslation();
   const {
     register,
     formState: { errors },
@@ -14,6 +15,7 @@ const EmailStep = () => {
       type="email"
       fullWidth
       variant="filled"
+      placeholder={t("Email")}
       error={Boolean(errors.email)}
       helperText={errors.email?.message}
     />

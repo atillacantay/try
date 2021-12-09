@@ -1,34 +1,36 @@
-import { DatePicker, LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { TextField } from "@mui/material";
-import moment from "moment";
+import { MenuItem, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const AgeStep = () => {
+  const { t } = useTranslation();
   const {
     control,
     formState: { errors },
   } = useFormContext();
 
+  const createAgeArray = () =>
+    Array.from({ length: 100 - 18 }, (_, i) => 18 + i);
+
   return (
     <Controller
       render={({ field }) => (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            {...field}
-            views={["year"]}
-            maxDate={moment().subtract(18, "years").toDate()}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                variant="filled"
-                error={Boolean(errors.dateOfBirth)}
-                helperText={errors.dateOfBirth?.message}
-              />
-            )}
-          />
-        </LocalizationProvider>
+        <TextField
+          id="age-select"
+          select
+          label={t("Age")}
+          fullWidth
+          variant="filled"
+          error={Boolean(errors.age)}
+          helperText={errors.age?.message}
+          {...field}
+        >
+          {createAgeArray().map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
       )}
       control={control}
       name="dateOfBirth"

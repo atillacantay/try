@@ -3,8 +3,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const PasswordStep = () => {
+  const { t } = useTranslation();
   const {
     register,
     formState: { errors },
@@ -27,6 +29,7 @@ const PasswordStep = () => {
       {...register("password")}
       fullWidth
       variant="filled"
+      placeholder={t("Password")}
       error={Boolean(errors.password)}
       helperText={errors.password?.message}
       type={showPassword ? "text" : "password"}

@@ -3,6 +3,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton } from "@mui/material";
 import { styled } from "@mui/system";
 import RegisterStepper from "components/register/RegisterStepper";
+import { useAuth } from "composables/useAuth";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { RegisterFormData } from "types/auth";
@@ -21,13 +22,14 @@ const defaultValues: RegisterFormData = {
 };
 
 const Register = () => {
+  const { registerUser } = useAuth();
   const form = useForm({
     defaultValues,
     resolver: yupResolver(registerValidationSchema),
   });
 
   const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
+    registerUser(data);
   };
 
   return (
