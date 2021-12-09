@@ -69,6 +69,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
         })}
       </StepperExtended>
       <FormProvider {...form}>
+        {t("yasin")}
         <RegisterForm onSubmit={handleSubmit(onSubmit)}>
           {activeStep === 0 && <NameStep />}
           {activeStep === 1 && <GenderStep />}
