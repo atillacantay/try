@@ -2,6 +2,10 @@
     "hey": "hey",
     "Create your account": "Create your account",
     "Name": "Name",
+    "Age": "Age",
     "Email": "Email",
-    "Password": "Password"
+    "Password": "Password",
+    "Next": "Next",
+    "Register": "Register",
+    "Back": "Back"
 }

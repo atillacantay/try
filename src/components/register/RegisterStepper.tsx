@@ -1,0 +1,97 @@
+import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import NameStep from "components/register/NameStep";
+import { t } from "i18next";
+import * as React from "react";
+import { FormProvider, UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { RegisterFormData } from "types/auth";
+import AgeStep from "./AgeStep";
+import EmailStep from "./EmailStep";
+import PasswordStep from "./PasswordStep";
+
+const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
+
+const RegisterForm = styled("form")(({ theme }) => ({
+  padding: theme.spacing(4),
+}));
+
+const steps = [
+  { key: "name", label: t("Name") },
+  { key: "dateOfBirth", label: t("Age") },
+  { key: "email", label: t("Email") },
+  { key: "password", label: t("Password") },
+];
+
+interface RegisterStepperProps {
+  form: UseFormReturn<RegisterFormData, object>;
+  onSubmit: (data: RegisterFormData) => void;
+}
+
+const RegisterStepper: React.FC<RegisterStepperProps> = ({
+  form,
+  onSubmit,
+}) => {
+  const { handleSubmit } = form;
+  const { t } = useTranslation();
+
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  const handleNext = async () => {
+    const isValidated = await form.trigger(steps[activeStep].key as any);
+    if (isValidated) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () =>
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
+  return (
+    <RegisterStepperRoot sx={{ width: "100%" }}>
+      <Stepper activeStep={activeStep}>
+        {steps.map((step, index) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: {
+            optional?: React.ReactNode;
+          } = {};
+          return (
+            <Step key={step.key} {...stepProps}>
+              <StepLabel {...labelProps}>{step.label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      <FormProvider {...form}>
+        <RegisterForm onSubmit={handleSubmit(onSubmit)}>
+          {activeStep === 0 && <NameStep />}
+          {activeStep === 1 && <AgeStep />}
+          {activeStep === 2 && <EmailStep />}
+          {activeStep === 3 && <PasswordStep />}
+          {activeStep !== steps.length && (
+            <React.Fragment>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  {t("Back")}
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
+                {activeStep === steps.length - 1 ? (
+                  <Button type="submit" variant="contained">
+                    {t("Register")}
+                  </Button>
+                ) : (
+                  <Button onClick={handleNext}>{t("Next")}</Button>
+                )}
+              </Box>
+            </React.Fragment>
+          )}
+        </RegisterForm>
+      </FormProvider>
+    </RegisterStepperRoot>
+  );
+};
+
+export default RegisterStepper;
