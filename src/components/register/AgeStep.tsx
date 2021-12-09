@@ -22,6 +22,7 @@ const AgeStep = () => {
               <TextField
                 {...params}
                 fullWidth
+                variant="filled"
                 error={Boolean(errors.dateOfBirth)}
                 helperText={errors.dateOfBirth?.message}
               />

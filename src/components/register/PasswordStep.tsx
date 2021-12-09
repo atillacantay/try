@@ -26,6 +26,7 @@ const PasswordStep = () => {
     <TextField
       {...register("password")}
       fullWidth
+      variant="filled"
       error={Boolean(errors.password)}
       helperText={errors.password?.message}
       type={showPassword ? "text" : "password"}

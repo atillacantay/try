@@ -4,7 +4,6 @@ import Landing from "./Landing";
 import Register from "./Register";
 
 const App = () => {
-
   return (
     <MainLayout>
       <Routes>
@@ -13,6 +12,6 @@ const App = () => {
       </Routes>
     </MainLayout>
   );
-}
+};
 
 export default App;

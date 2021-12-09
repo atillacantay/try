@@ -1,13 +1,14 @@
 import { Container } from "@mui/material";
-import { FC } from "react";
+import Header from "components/Header";
+import React, { FC } from "react";
 
 const Main: FC = ({ children }) => {
-
   return (
-    <Container maxWidth="md">
-      {children}
-    </Container>
+    <React.Fragment>
+      <Header />
+      <Container maxWidth="md">{children}</Container>
+    </React.Fragment>
   );
-}
+};
 
 export default Main;

@@ -13,6 +13,7 @@ const EmailStep = () => {
       {...register("email")}
       type="email"
       fullWidth
+      variant="filled"
       error={Boolean(errors.email)}
       helperText={errors.email?.message}
     />

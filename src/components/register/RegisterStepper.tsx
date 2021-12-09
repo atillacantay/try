@@ -1,13 +1,13 @@
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NameStep from "components/register/NameStep";
-import { t } from "i18next";
 import * as React from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { RegisterFormData } from "types/auth";
 import AgeStep from "./AgeStep";
 import EmailStep from "./EmailStep";
+import GenderStep from "./GenderStep";
 import PasswordStep from "./PasswordStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
@@ -17,10 +17,11 @@ const RegisterForm = styled("form")(({ theme }) => ({
 }));
 
 const steps = [
-  { key: "name", label: t("Name") },
-  { key: "dateOfBirth", label: t("Age") },
-  { key: "email", label: t("Email") },
-  { key: "password", label: t("Password") },
+  { key: "name", label: "Name" },
+  { key: "gender", label: "Gender" },
+  { key: "dateOfBirth", label: "Age" },
+  { key: "email", label: "Email" },
+  { key: "password", label: "Password" },
 ];
 
 interface RegisterStepperProps {
@@ -55,7 +56,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
           } = {};
           return (
             <Step key={step.key} {...stepProps}>
-              <StepLabel {...labelProps}>{step.label}</StepLabel>
+              <StepLabel {...labelProps}>{t(step.label)}</StepLabel>
             </Step>
           );
         })}
@@ -63,9 +64,10 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
       <FormProvider {...form}>
         <RegisterForm onSubmit={handleSubmit(onSubmit)}>
           {activeStep === 0 && <NameStep />}
-          {activeStep === 1 && <AgeStep />}
-          {activeStep === 2 && <EmailStep />}
-          {activeStep === 3 && <PasswordStep />}
+          {activeStep === 1 && <GenderStep />}
+          {activeStep === 2 && <AgeStep />}
+          {activeStep === 3 && <EmailStep />}
+          {activeStep === 4 && <PasswordStep />}
           {activeStep !== steps.length && (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

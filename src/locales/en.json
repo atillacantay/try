@@ -2,9 +2,12 @@
     "hey": "hey",
     "Create your account": "Create your account",
     "Name": "Name",
+    "Gender": "Gender",
     "Age": "Age",
     "Email": "Email",
     "Password": "Password",
+    "Male": "Male",
+    "Female": "Female",
     "Next": "Next",
     "Register": "Register",
     "Back": "Back"
