@@ -12,9 +12,10 @@ interface AuthContext {
   loginLoading: boolean;
   registerSuccess?: boolean;
   loginSuccess?: boolean;
-  getAuthIntance: () => void;
+  getAuthInstance: () => void;
   registerUser: (registerFormData: RegisterFormData) => void;
   loginUser: (loginFormData: any) => void;
+  signOutUser: () => void;
 }
 
 const authContextDefaultValues: AuthContext = {
@@ -22,9 +23,10 @@ const authContextDefaultValues: AuthContext = {
   user: null,
   registerLoading: false,
   loginLoading: false,
-  getAuthIntance: () => {},
+  getAuthInstance: () => {},
   registerUser: () => {},
   loginUser: () => {},
+  signOutUser: () => {},
 };
 
 const authContext = createContext<AuthContext>(authContextDefaultValues);
@@ -47,16 +49,15 @@ const useProvideAuth = () => {
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginSuccess, setLoginSuccess] = React.useState<ISuccess>();
 
-  const getAuthIntance = () => getAuth();
+  const getAuthInstance = () => getAuth();
 
   React.useEffect(() => {
-    onAuthStateChanged(getAuthIntance(), (user) => {
+    onAuthStateChanged(getAuthInstance(), (user) => {
       if (user) {
         setUser(user);
         setIsAuthenticated(true);
       } else {
-        setUser(null);
-        setIsAuthenticated(false);
+        resetAuth();
       }
     });
   }, []);
@@ -83,13 +84,18 @@ const useProvideAuth = () => {
     }
   };
 
-  const signOutUser = async (loginFormData: any) => {
+  const signOutUser = async () => {
     try {
       await signOut();
-      setIsAuthenticated(false);
+      resetAuth();
     } catch (error) {
     } finally {
     }
+  };
+
+  const resetAuth = () => {
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   return {
@@ -99,7 +105,7 @@ const useProvideAuth = () => {
     registerSuccess,
     loginLoading,
     loginSuccess,
-    getAuthIntance,
+    getAuthInstance,
     registerUser,
     loginUser,
     signOutUser,
