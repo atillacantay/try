@@ -11,12 +11,15 @@ i18n.use(initReactI18next).init({
   debug: true,
   resources: {
     en: {
+      label: "English",
       translation: translationEN,
     },
     de: {
+      label: "German",
       translation: translationDE,
     },
     tr: {
+      label: "Turkish",
       translation: translationTR,
     },
   },

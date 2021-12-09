@@ -56,7 +56,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
   return (
     <RegisterStepperRoot sx={{ width: "100%" }}>
       <StepperExtended activeStep={activeStep}>
-        {steps.map((step, index) => {
+        {steps.map((step) => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: {
             optional?: React.ReactNode;
@@ -69,7 +69,6 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
         })}
       </StepperExtended>
       <FormProvider {...form}>
-        {t("yasin")}
         <RegisterForm onSubmit={handleSubmit(onSubmit)}>
           {activeStep === 0 && <NameStep />}
           {activeStep === 1 && <GenderStep />}

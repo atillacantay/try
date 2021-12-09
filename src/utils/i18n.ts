@@ -9,8 +9,5 @@ export const changeLanguage = (languageKey: string) =>
 export const getLanguageList = () => i18next.languages;
 
 export const getLanguageLabel = (languageKey: string) => {
-  let languageNames = new Intl.DisplayNames([languageKey], {
-    type: "language",
-  });
-  return languageNames.of(languageKey);
+  return i18next.store.data[languageKey].label;
 };
