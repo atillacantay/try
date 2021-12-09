@@ -4,7 +4,11 @@ import {
   CustomParams,
   setUserProperties as setUserPropertiesFB,
 } from "firebase/analytics";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signOut as signOutFB,
+} from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { RegisterFormData } from "types/auth";
 
@@ -48,6 +52,14 @@ export const login = (loginFormData: any) => {
       const errorMessage = error.message;
       // ..
     });
+};
+
+export const signOut = async () => {
+  await signOutFB(auth).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
 };
 
 export const setUserProperties = (
