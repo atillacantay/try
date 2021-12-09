@@ -1,9 +1,7 @@
 import GTranslateIcon from "@mui/icons-material/GTranslate";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
 import {
   changeLanguage,
@@ -29,13 +27,9 @@ const LocaleChanger = () => {
 
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title="Account settings">
-          <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <GTranslateIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+        <GTranslateIcon />
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={open}

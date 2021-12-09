@@ -18,7 +18,8 @@ const CustomThemeProvider: FC = ({ children }) => {
   const [themeName, _setThemeName] = React.useState<AppTheme>(currentTheme);
   const theme = getTheme(themeName);
 
-  const setThemeName = (name: AppTheme) => {
+  const setThemeName = () => {
+    const name = themeName === "dark" ? "light" : "dark";
     localStorage.setItem("appTheme", name);
     _setThemeName(name);
   };

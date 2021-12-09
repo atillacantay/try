@@ -2,6 +2,16 @@ import { MenuItem, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+};
+
 const AgeStep = () => {
   const { t } = useTranslation();
   const {
@@ -23,6 +33,9 @@ const AgeStep = () => {
           variant="filled"
           error={Boolean(errors.age)}
           helperText={errors.age?.message}
+          SelectProps={{
+            MenuProps: MenuProps,
+          }}
           {...field}
         >
           {createAgeArray().map((option) => (
