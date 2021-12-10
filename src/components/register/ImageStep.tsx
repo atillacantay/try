@@ -1,5 +1,11 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, FormControl, FormHelperText, IconButton } from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  Paper,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -9,7 +15,20 @@ const Images = styled("div")({
   display: "flex",
 });
 
-const Image = styled("div")({});
+const Image = styled(Paper)(({ theme }) => ({
+  position: "relative",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  width: "100px",
+  height: "100px",
+  marginRight: theme.spacing(2),
+}));
+
+const RemoveButton = styled(IconButton)({
+  position: "absolute",
+  right: 0,
+});
 
 const Input = styled("input")({
   display: "none",
@@ -45,15 +64,19 @@ const ImageStep = () => {
     <React.Fragment>
       <Images>
         {getImages().map((image) => (
-          <Image key={image.name}>
-            <img
-              alt={image.name}
-              width={100}
-              src={URL.createObjectURL(image)}
-            />
-            <IconButton onClick={() => removeImage(image)}>
-              <DeleteIcon />
-            </IconButton>
+          <Image
+            key={image.name}
+            style={{
+              backgroundImage: `url(${URL.createObjectURL(image)})`,
+            }}
+          >
+            <RemoveButton
+              onClick={() => removeImage(image)}
+              size="small"
+              color="default"
+            >
+              <CancelIcon />
+            </RemoveButton>
           </Image>
         ))}
       </Images>
