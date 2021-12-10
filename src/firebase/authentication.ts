@@ -1,4 +1,4 @@
-import { db } from "firebase";
+import { db, storage } from "firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -7,6 +7,11 @@ import {
   User,
 } from "firebase/auth";
 import { get, ref, set } from "firebase/database";
+import {
+  ref as storageRef,
+  StorageReference,
+  uploadBytes,
+} from "firebase/storage";
 import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
 
 export const auth = getAuth();
@@ -21,6 +26,7 @@ export const register = async (registerFormData: RegisterFormData) => {
     .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
+      await saveUserImages(user, registerFormData.photos);
       await writeUserData(user, rest);
       // ...
     })
@@ -63,4 +69,17 @@ export const getUserData = async (user: User) => {
 
 const writeUserData = async (user: User, params: any) => {
   await set(ref(db, "users/" + user.uid), params);
+};
+
+const saveUserImages = (user: User, files: File[]) => {
+  Promise.all(files.map((file) => saveUserImage(user, file)));
+};
+
+const saveUserImage = async (user: User, file: File) => {
+  const ref = storageRef(storage, `photos/${user.uid}/${file.name}`);
+  await uploadImage(ref, file);
+};
+
+const uploadImage = async (ref: StorageReference, file: File) => {
+  await uploadBytes(ref, file);
 };

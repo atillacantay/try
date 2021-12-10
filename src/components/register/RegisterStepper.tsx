@@ -11,6 +11,7 @@ import AgeStep from "./AgeStep";
 import EmailStep from "./EmailStep";
 import GenderStep from "./GenderStep";
 import PasswordStep from "./PasswordStep";
+import PhotoStep from "./PhotoStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
@@ -28,6 +29,7 @@ const steps = [
   { key: "dateOfBirth", label: "Age" },
   { key: "email", label: "Email" },
   { key: "password", label: "Password" },
+  { key: "photos", label: "Photos" },
 ];
 
 interface RegisterStepperProps {
@@ -75,6 +77,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
           {activeStep === 2 && <AgeStep />}
           {activeStep === 3 && <EmailStep />}
           {activeStep === 4 && <PasswordStep />}
+          {activeStep === 5 && <PhotoStep />}
           {activeStep !== steps.length && (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

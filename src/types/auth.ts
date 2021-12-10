@@ -4,6 +4,7 @@ export interface RegisterFormData {
   dateOfBirth: string;
   email: string;
   password: string;
+  photos: File[];
 }
 
 export interface FirebaseUserData {

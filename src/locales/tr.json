@@ -2,9 +2,12 @@
     "hey": "hey",
     "Create your account": "Hesabını oluştur",
     "Name": "İsim",
+    "Gender": "Cinsiyet",
     "Age": "Yaş",
     "Email": "Email adresi",
     "Password": "Şifre",
+    "Male": "Erkek",
+    "Female": "Kadın",
     "Next": "Devam",
     "Register": "Üye ol",
     "Back": "Geri"

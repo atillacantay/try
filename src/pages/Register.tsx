@@ -19,6 +19,7 @@ const defaultValues: RegisterFormData = {
   dateOfBirth: "",
   email: "",
   password: "",
+  photos: [],
 };
 
 const Register = () => {

@@ -6,4 +6,5 @@ export const registerValidationSchema = yup.object({
   dateOfBirth: yup.number().required(),
   email: yup.string().email().required(),
   password: yup.string().required(),
+  photos: yup.array<FileList>().min(1),
 });
