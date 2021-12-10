@@ -16,10 +16,10 @@ const RegisterStepperWrapper = styled("div")(({ theme }) => ({
 const defaultValues: RegisterFormData = {
   name: "",
   gender: "",
-  dateOfBirth: "",
+  age: "",
   email: "",
   password: "",
-  photos: [],
+  images: [],
 };
 
 const Register = () => {

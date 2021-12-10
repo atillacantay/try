@@ -46,7 +46,7 @@ const AgeStep = () => {
         </TextField>
       )}
       control={control}
-      name="dateOfBirth"
+      name="age"
     />
   );
 };

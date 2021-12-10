@@ -5,17 +5,17 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-const Photos = styled("div")({
+const Images = styled("div")({
   display: "flex",
 });
 
-const Photo = styled("div")({});
+const Image = styled("div")({});
 
 const Input = styled("input")({
   display: "none",
 });
 
-const PhotoStep = () => {
+const ImageStep = () => {
   const { t } = useTranslation();
   const {
     getValues,
@@ -24,46 +24,44 @@ const PhotoStep = () => {
     formState: { errors },
   } = useFormContext();
 
-  const getPhotos = () => getValues("photos") as File[];
+  const getImages = () => getValues("images") as File[];
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const photos = getPhotos();
-    setValue("photos", photos.concat(Array.from(e.target.files as any)), {
+    const images = getImages();
+    setValue("images", images.concat(Array.from(e.target.files as any)), {
       shouldValidate: true,
     });
   };
 
-  const removePhoto = (selectedPhoto: File) => {
-    const photos = getPhotos().filter(
-      (photo) => photo.name !== selectedPhoto.name
+  const removeImage = (selectedImage: File) => {
+    const images = getImages().filter(
+      (image) => image.name !== selectedImage.name
     );
-    setValue("photos", photos, { shouldValidate: true });
+    setValue("images", images, { shouldValidate: true });
   };
-
-  console.log(getValues("photos"));
 
   return (
     <React.Fragment>
-      <Photos>
-        {getPhotos().map((photo) => (
-          <Photo key={photo.name + Math.floor(Math.random() * Date.now())}>
+      <Images>
+        {getImages().map((image) => (
+          <Image key={image.name + Math.floor(Math.random() * Date.now())}>
             <img
-              alt={photo.name}
+              alt={image.name}
               width={100}
-              src={URL.createObjectURL(photo)}
+              src={URL.createObjectURL(image)}
             />
-            <IconButton onClick={() => removePhoto(photo)}>
+            <IconButton onClick={() => removeImage(image)}>
               <DeleteIcon />
             </IconButton>
-          </Photo>
+          </Image>
         ))}
-      </Photos>
-      <FormControl sx={{ m: 1 }} error={Boolean(errors.photos)}>
-        <label htmlFor="photo-upload">
+      </Images>
+      <FormControl sx={{ m: 1 }} error={Boolean(errors.images)}>
+        <label htmlFor="image-upload">
           <Input
-            {...register("photos")}
+            {...register("images")}
             accept=".png, .jpg, .jpeg"
-            id="photo-upload"
+            id="image-upload"
             multiple
             type="file"
             onChange={onChange}
@@ -72,10 +70,10 @@ const PhotoStep = () => {
             {t("Upload")}
           </Button>
         </label>
-        <FormHelperText>{errors.photos?.message}</FormHelperText>
+        <FormHelperText>{errors.images?.message}</FormHelperText>
       </FormControl>
     </React.Fragment>
   );
 };
 
-export default PhotoStep;
+export default ImageStep;

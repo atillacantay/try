@@ -71,6 +71,7 @@ const useProvideAuth = () => {
     try {
       await register(registerFormData);
       setRegisterSuccess(true);
+      history.push("/");
     } catch (error) {
     } finally {
       setRegisterLoading(false);

@@ -10,8 +10,8 @@ import { RegisterFormData } from "types/auth";
 import AgeStep from "./AgeStep";
 import EmailStep from "./EmailStep";
 import GenderStep from "./GenderStep";
+import ImageStep from "./ImageStep";
 import PasswordStep from "./PasswordStep";
-import PhotoStep from "./PhotoStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
@@ -26,10 +26,10 @@ const RegisterForm = styled("form")(({ theme }) => ({
 const steps = [
   { key: "name", label: "Name" },
   { key: "gender", label: "Gender" },
-  { key: "dateOfBirth", label: "Age" },
+  { key: "age", label: "Age" },
   { key: "email", label: "Email" },
   { key: "password", label: "Password" },
-  { key: "photos", label: "Photos" },
+  { key: "images", label: "Images" },
 ];
 
 interface RegisterStepperProps {
@@ -77,7 +77,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
           {activeStep === 2 && <AgeStep />}
           {activeStep === 3 && <EmailStep />}
           {activeStep === 4 && <PasswordStep />}
-          {activeStep === 5 && <PhotoStep />}
+          {activeStep === 5 && <ImageStep />}
           {activeStep !== steps.length && (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
