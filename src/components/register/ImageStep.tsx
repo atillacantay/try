@@ -28,7 +28,8 @@ const ImageStep = () => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = getImages();
-    setValue("images", images.concat(Array.from(e.target.files as any)), {
+    const newImages = Array.from(e.target.files as FileList);
+    setValue("images", images.concat(newImages), {
       shouldValidate: true,
     });
   };
@@ -44,7 +45,7 @@ const ImageStep = () => {
     <React.Fragment>
       <Images>
         {getImages().map((image) => (
-          <Image key={image.name + Math.floor(Math.random() * Date.now())}>
+          <Image key={image.name}>
             <img
               alt={image.name}
               width={100}
