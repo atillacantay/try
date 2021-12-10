@@ -35,6 +35,7 @@ const authContext = createContext<AuthContext>(authContextDefaultValues);
 
 export const AuthProvider: FC = ({ children }) => {
   const auth = useProvideAuth();
+  if (auth.loadingUser) return null;
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
 
@@ -44,6 +45,7 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [loadingUser, setLoadingUser] = React.useState(false);
   const [user, setUser] = React.useState<(User & FirebaseUserData) | null>(
     null
   );
@@ -56,13 +58,16 @@ const useProvideAuth = () => {
   const getAuthInstance = () => getAuth();
 
   React.useEffect(() => {
+    setLoadingUser(true);
     onAuthStateChanged(getAuthInstance(), async (user) => {
       if (user) {
         const userExtraData = await getUserData(user);
         setUser({ ...user, ...userExtraData });
         setIsAuthenticated(true);
+        setLoadingUser(false);
       } else {
         resetAuth();
+        setLoadingUser(false);
       }
     });
   }, []);
@@ -109,6 +114,7 @@ const useProvideAuth = () => {
   };
 
   return {
+    loadingUser,
     isAuthenticated,
     user,
     registerLoading,
