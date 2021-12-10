@@ -5,3 +5,14 @@ export interface RegisterFormData {
   email: string;
   password: string;
 }
+
+export interface FirebaseUserData {
+  name: string;
+  gender: string;
+  dateOfBirth: string;
+}
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}

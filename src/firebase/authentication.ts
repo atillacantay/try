@@ -1,16 +1,13 @@
-import { analytics, db } from "firebase";
-import {
-  AnalyticsCallOptions,
-  CustomParams,
-  setUserProperties as setUserPropertiesFB,
-} from "firebase/analytics";
+import { db } from "firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  signInWithEmailAndPassword,
   signOut as signOutFB,
+  User,
 } from "firebase/auth";
-import { ref, set } from "firebase/database";
-import { RegisterFormData } from "types/auth";
+import { get, ref, set } from "firebase/database";
+import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
 
 export const auth = getAuth();
 
@@ -24,8 +21,7 @@ export const register = async (registerFormData: RegisterFormData) => {
     .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
-      console.log(user);
-      await writeUserData(user.uid, rest);
+      await writeUserData(user, rest);
       // ...
     })
     .catch((error) => {
@@ -35,16 +31,15 @@ export const register = async (registerFormData: RegisterFormData) => {
     });
 };
 
-export const login = (loginFormData: any) => {
-  createUserWithEmailAndPassword(
+export const login = async (loginFormData: LoginFormData) => {
+  return await signInWithEmailAndPassword(
     auth,
     loginFormData.email,
     loginFormData.password
   )
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
-      const user = userCredential.user;
-      console.log(user);
+      // const user = userCredential.user;
       // ...
     })
     .catch((error) => {
@@ -62,13 +57,10 @@ export const signOut = async () => {
   });
 };
 
-export const setUserProperties = (
-  properties: CustomParams,
-  options?: AnalyticsCallOptions | undefined
-) => {
-  setUserPropertiesFB(analytics, properties, options);
+export const getUserData = async (user: User) => {
+  return (await get(ref(db, "users/" + user.uid))).val() as FirebaseUserData;
 };
 
-const writeUserData = async (userId: string, params: any) => {
-  await set(ref(db, "users/" + userId), params);
+const writeUserData = async (user: User, params: any) => {
+  await set(ref(db, "users/" + user.uid), params);
 };

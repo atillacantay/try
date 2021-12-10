@@ -1,6 +1,4 @@
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import PasswordField from "components/commons/PasswordField";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -12,41 +10,14 @@ const PasswordStep = () => {
     formState: { errors },
   } = useFormContext();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
   return (
-    <TextField
+    <PasswordField
       {...register("password")}
-      fullWidth
       variant="filled"
       placeholder={t("Password")}
       error={Boolean(errors.password)}
       helperText={errors.password?.message}
-      type={showPassword ? "text" : "password"}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
+      fullWidth
     />
   );
 };

@@ -1,20 +1,21 @@
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { register, signOut } from "firebase/authentication";
+import { getUserData, login, register, signOut } from "firebase/authentication";
 import React, { createContext, FC, useContext } from "react";
-import { RegisterFormData } from "types/auth";
+import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
+import { history } from "utils/history";
 
 type ISuccess = boolean | undefined;
 
 interface AuthContext {
   isAuthenticated: boolean;
-  user: User | null;
+  user: (User & FirebaseUserData) | null;
   registerLoading: boolean;
   loginLoading: boolean;
   registerSuccess?: boolean;
   loginSuccess?: boolean;
   getAuthInstance: () => void;
   registerUser: (registerFormData: RegisterFormData) => void;
-  loginUser: (loginFormData: any) => void;
+  loginUser: (loginFormData: LoginFormData) => void;
   signOutUser: () => void;
 }
 
@@ -42,7 +43,9 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<(User & FirebaseUserData) | null>(
+    null
+  );
 
   const [registerLoading, setRegisterLoading] = React.useState(false);
   const [registerSuccess, setRegisterSuccess] = React.useState<ISuccess>();
@@ -52,9 +55,10 @@ const useProvideAuth = () => {
   const getAuthInstance = () => getAuth();
 
   React.useEffect(() => {
-    onAuthStateChanged(getAuthInstance(), (user) => {
+    onAuthStateChanged(getAuthInstance(), async (user) => {
       if (user) {
-        setUser(user);
+        const userExtraData = await getUserData(user);
+        setUser({ ...user, ...userExtraData });
         setIsAuthenticated(true);
       } else {
         resetAuth();
@@ -67,17 +71,18 @@ const useProvideAuth = () => {
     try {
       await register(registerFormData);
       setRegisterSuccess(true);
-      setIsAuthenticated(true);
     } catch (error) {
     } finally {
       setRegisterLoading(false);
     }
   };
 
-  const loginUser = async (loginFormData: any) => {
+  const loginUser = async (loginFormData: LoginFormData) => {
     setLoginLoading(true);
     try {
+      await login(loginFormData);
       setLoginSuccess(true);
+      history.push("/");
     } catch (error) {
     } finally {
       setLoginLoading(false);
