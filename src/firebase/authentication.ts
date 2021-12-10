@@ -27,18 +27,16 @@ export const auth = getAuth();
  */
 export const register = async (registerFormData: RegisterFormData) => {
   const { email, password, images, ...rest } = registerFormData;
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      await saveUserData(user, rest);
-      saveUserImages(user, images);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+  const user = userCredential.user;
+  if (user) {
+    await saveUserData(user, rest);
+    saveUserImages(user, images);
+  }
 };
 
 /**
@@ -47,32 +45,18 @@ export const register = async (registerFormData: RegisterFormData) => {
  * @param {String} password
  */
 export const login = async (loginFormData: LoginFormData) => {
-  return await signInWithEmailAndPassword(
+  await signInWithEmailAndPassword(
     auth,
     loginFormData.email,
     loginFormData.password
-  )
-    .then(async (userCredential) => {
-      // Signed in
-      // const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  );
 };
 
 /**
  * Sign out user
  */
 export const signOut = async () => {
-  await signOutFB(auth).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-  });
+  await signOutFB(auth);
 };
 
 export const getUserData = async (user: User) => {

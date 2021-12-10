@@ -16,7 +16,7 @@ const RegisterStepperWrapper = styled("div")(({ theme }) => ({
 const defaultValues: RegisterFormData = {
   name: "",
   gender: "",
-  age: "",
+  age: 18,
   email: "",
   password: "",
   images: [],

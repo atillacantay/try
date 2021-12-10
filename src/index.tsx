@@ -1,11 +1,13 @@
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter } from "components/BrowserRouter";
 import "firebase";
+import { SnackbarProvider } from "notistack";
 import CustomThemeProvider from "providers/CustomThemeProvider";
 import React from "react";
 import ReactDOM from "react-dom";
 import { I18nextProvider } from "react-i18next";
 import { history } from "utils/history";
+import { SnackbarUtilsConfigurator } from "utils/SnackbarUtilsConfigurator";
 import i18n from "./i18n";
 import "./index.css";
 import App from "./pages/App";
@@ -15,10 +17,13 @@ ReactDOM.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
       <CustomThemeProvider>
-        <BrowserRouter history={history}>
-          <CssBaseline />
-          <App />
-        </BrowserRouter>
+        <SnackbarProvider maxSnack={3}>
+          <SnackbarUtilsConfigurator />
+          <BrowserRouter history={history}>
+            <CssBaseline />
+            <App />
+          </BrowserRouter>
+        </SnackbarProvider>
       </CustomThemeProvider>
     </I18nextProvider>
   </React.StrictMode>,

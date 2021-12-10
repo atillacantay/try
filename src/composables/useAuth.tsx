@@ -3,6 +3,7 @@ import { getUserData, login, register, signOut } from "firebase/authentication";
 import React, { createContext, FC, useContext } from "react";
 import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
 import { history } from "utils/history";
+import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 
 type ISuccess = boolean | undefined;
 
@@ -72,7 +73,8 @@ const useProvideAuth = () => {
       await register(registerFormData);
       setRegisterSuccess(true);
       history.push("/");
-    } catch (error) {
+    } catch (error: any) {
+      SnackbarUtils.error(error.message);
     } finally {
       setRegisterLoading(false);
     }
@@ -84,7 +86,8 @@ const useProvideAuth = () => {
       await login(loginFormData);
       setLoginSuccess(true);
       history.push("/");
-    } catch (error) {
+    } catch (error: any) {
+      SnackbarUtils.error(error.message);
     } finally {
       setLoginLoading(false);
     }
@@ -94,7 +97,8 @@ const useProvideAuth = () => {
     try {
       await signOut();
       resetAuth();
-    } catch (error) {
+    } catch (error: any) {
+      SnackbarUtils.error(error.message);
     } finally {
     }
   };
