@@ -100,7 +100,7 @@ export const saveUserLocation = async (
   // await fetch(
   //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${process.env.REACT_APP_FIREBASE_GOOGLE_API_KEY}`
   // );
-  // TODO: Removethis comments when it's time.
+  // TODO: Remove these comments when it's time.
   const detailedLocationObject = getDetailedLocationObject();
   await updateUserData(user, { location: detailedLocationObject });
 };

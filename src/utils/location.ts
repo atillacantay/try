@@ -558,6 +558,7 @@ const api_results = [
   },
 ];
 
+// TODO: Remove the default (mock) value when it's time.
 export const getDetailedLocationObject = (results = api_results) => {
   let city = "";
   let country = "";
