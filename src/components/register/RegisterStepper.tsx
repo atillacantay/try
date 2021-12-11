@@ -1,17 +1,16 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import NameStep from "components/register/NameStep";
 import { useAuth } from "composables/useAuth";
 import * as React from "react";
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { RegisterFormData } from "types/auth";
-import AgeStep from "./AgeStep";
-import EmailStep from "./EmailStep";
-import GenderStep from "./GenderStep";
+import { registerValidationSchema } from "validations/registerValidationSchema";
+import AccountDetailsStep from "./AccountDetailsStep";
 import ImageStep from "./ImageStep";
-import PasswordStep from "./PasswordStep";
+import PersonalDetailsStep from "./PersonalDetailsStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
@@ -23,37 +22,44 @@ const RegisterForm = styled("form")(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
+const defaultValues: RegisterFormData = {
+  name: "",
+  gender: "",
+  age: "",
+  email: "",
+  password: "",
+  images: [],
+};
+
 const steps = [
-  { key: "name", label: "Name" },
-  { key: "gender", label: "Gender" },
-  { key: "age", label: "Age" },
-  { key: "email", label: "Email" },
-  { key: "password", label: "Password" },
+  { key: "personalDetails", label: "Personal Details" },
+  { key: "accountDetails", label: "Account Details" },
   { key: "images", label: "Images" },
 ];
 
-interface RegisterStepperProps {
-  form: UseFormReturn<RegisterFormData, object>;
-  onSubmit: (data: RegisterFormData) => void;
-}
+interface RegisterStepperProps {}
 
-const RegisterStepper: React.FC<RegisterStepperProps> = ({
-  form,
-  onSubmit,
-}) => {
-  const { registerLoading } = useAuth();
-  const { handleSubmit } = form;
+const RegisterStepper: React.FC<RegisterStepperProps> = () => {
+  const { registerLoading, registerUser } = useAuth();
   const { t } = useTranslation();
-
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const currentValidationSchema = registerValidationSchema[activeStep];
+  const form = useForm({
+    defaultValues,
+    resolver: yupResolver(currentValidationSchema),
+    reValidateMode: "onChange",
+  });
+
   const handleNext = async () => {
-    const isValidated = await form.trigger(steps[activeStep].key as any);
-    if (isValidated) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const isStepValid = await form.trigger();
+    if (isStepValid) setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () =>
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
+  const onSubmit = (data: RegisterFormData) => registerUser(data);
 
   return (
     <RegisterStepperRoot sx={{ width: "100%" }}>
@@ -71,13 +77,10 @@ const RegisterStepper: React.FC<RegisterStepperProps> = ({
         })}
       </StepperExtended>
       <FormProvider {...form}>
-        <RegisterForm onSubmit={handleSubmit(onSubmit)}>
-          {activeStep === 0 && <NameStep />}
-          {activeStep === 1 && <GenderStep />}
-          {activeStep === 2 && <AgeStep />}
-          {activeStep === 3 && <EmailStep />}
-          {activeStep === 4 && <PasswordStep />}
-          {activeStep === 5 && <ImageStep />}
+        <RegisterForm onSubmit={form.handleSubmit(onSubmit)}>
+          {activeStep === 0 && <PersonalDetailsStep />}
+          {activeStep === 1 && <AccountDetailsStep />}
+          {activeStep === 2 && <ImageStep />}
           {activeStep !== steps.length && (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
