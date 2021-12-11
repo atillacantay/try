@@ -14,6 +14,6 @@ export const registerValidationSchema = [
   }),
   //validation for step3
   yup.object({
-    images: yup.array<FileList>().min(1),
+    photos: yup.array<FileList>().min(1),
   }),
 ];

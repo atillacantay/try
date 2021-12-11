@@ -11,11 +11,11 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-const Images = styled("div")({
+const Photos = styled("div")({
   display: "flex",
 });
 
-const Image = styled(Paper)(({ theme }) => ({
+const Photo = styled(Paper)(({ theme }) => ({
   position: "relative",
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
@@ -34,7 +34,7 @@ const Input = styled("input")({
   display: "none",
 });
 
-const ImageStep = () => {
+const PhotoStep = () => {
   const { t } = useTranslation();
   const {
     getValues,
@@ -43,49 +43,49 @@ const ImageStep = () => {
     formState: { errors },
   } = useFormContext();
 
-  const getImages = () => getValues("images") as File[];
+  const getPhotos = () => getValues("photos") as File[];
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const images = getImages();
-    const newImages = Array.from(e.target.files as FileList);
-    setValue("images", images.concat(newImages), {
+    const photos = getPhotos();
+    const newPhotos = Array.from(e.target.files as FileList);
+    setValue("photos", photos.concat(newPhotos), {
       shouldValidate: true,
     });
   };
 
-  const removeImage = (selectedImage: File) => {
-    const images = getImages().filter(
-      (image) => image.name !== selectedImage.name
+  const removePhoto = (selectedPhoto: File) => {
+    const photos = getPhotos().filter(
+      (photo) => photo.name !== selectedPhoto.name
     );
-    setValue("images", images, { shouldValidate: true });
+    setValue("photos", photos, { shouldValidate: true });
   };
 
   return (
     <React.Fragment>
-      <Images>
-        {getImages().map((image) => (
-          <Image
-            key={image.name}
+      <Photos>
+        {getPhotos().map((photo) => (
+          <Photo
+            key={photo.name}
             style={{
-              backgroundImage: `url(${URL.createObjectURL(image)})`,
+              backgroundImage: `url(${URL.createObjectURL(photo)})`,
             }}
           >
             <RemoveButton
-              onClick={() => removeImage(image)}
+              onClick={() => removePhoto(photo)}
               size="small"
               color="default"
             >
               <CancelIcon />
             </RemoveButton>
-          </Image>
+          </Photo>
         ))}
-      </Images>
-      <FormControl sx={{ m: 1 }} error={Boolean(errors.images)}>
-        <label htmlFor="image-upload">
+      </Photos>
+      <FormControl sx={{ m: 1 }} error={Boolean(errors.photos)}>
+        <label htmlFor="photo-upload">
           <Input
-            {...register("images")}
+            {...register("photos")}
             accept=".png, .jpg, .jpeg"
-            id="image-upload"
+            id="photo-upload"
             multiple
             type="file"
             onChange={onChange}
@@ -94,10 +94,10 @@ const ImageStep = () => {
             {t("Upload")}
           </Button>
         </label>
-        <FormHelperText>{errors.images?.message}</FormHelperText>
+        <FormHelperText>{errors.photos?.message}</FormHelperText>
       </FormControl>
     </React.Fragment>
   );
 };
 
-export default ImageStep;
+export default PhotoStep;

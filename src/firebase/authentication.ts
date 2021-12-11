@@ -23,10 +23,10 @@ export const auth = getAuth();
  * @param {String} gender
  * @param {String} age
  * @param {String} email
- * @param {File[]} images
+ * @param {File[]} photos
  */
 export const register = async (registerFormData: RegisterFormData) => {
-  const { email, password, images, ...rest } = registerFormData;
+  const { email, password, photos, ...rest } = registerFormData;
   const userCredential = await createUserWithEmailAndPassword(
     auth,
     email,
@@ -35,7 +35,7 @@ export const register = async (registerFormData: RegisterFormData) => {
   const user = userCredential.user;
   if (user) {
     await saveUserData(user, rest);
-    saveUserImages(user, images);
+    saveUserPhotos(user, photos);
   }
 };
 
@@ -69,9 +69,9 @@ const saveUserData = async (user: User, params: any) => {
   return await setDoc(doc(db, "users", user.uid), params);
 };
 
-export const getUserImages = async (user: User) => {
-  const userImagesRef = doc(db, "users", user.uid, "images");
-  const docSnap = await getDoc(userImagesRef);
+export const getUserPhotos = async (user: User) => {
+  const userPhotosRef = doc(db, "users", user.uid, "photos");
+  const docSnap = await getDoc(userPhotosRef);
   return docSnap.data() as string[];
 };
 
@@ -90,19 +90,19 @@ const getDownloadURL = async (ref: StorageReference) => {
     });
 };
 
-const saveUserImages = (user: User, files: File[]) => {
-  Promise.all(files.map((file) => saveUserImage(user, file)));
+const saveUserPhotos = (user: User, files: File[]) => {
+  Promise.all(files.map((file) => saveUserPhoto(user, file)));
 };
 
-const saveUserImage = async (user: User, file: File) => {
-  const newImageRef = storageRef(
+const saveUserPhoto = async (user: User, file: File) => {
+  const newPhotoRef = storageRef(
     storage,
-    `user_images/${user.uid}/${file.name}`
+    `user_photos/${user.uid}/${file.name}`
   );
-  await uploadImage(newImageRef, file);
-  const downloadUrl = await getDownloadURL(newImageRef);
+  await uploadImage(newPhotoRef, file);
+  const downloadUrl = await getDownloadURL(newPhotoRef);
   const userRef = doc(db, "users", user.uid);
-  setDoc(userRef, { images: arrayUnion(downloadUrl) }, { merge: true });
+  setDoc(userRef, { photos: arrayUnion(downloadUrl) }, { merge: true });
 };
 
 const uploadImage = async (ref: StorageReference, file: File) => {

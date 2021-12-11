@@ -9,8 +9,8 @@ import { useTranslation } from "react-i18next";
 import { RegisterFormData } from "types/auth";
 import { registerValidationSchema } from "validations/registerValidationSchema";
 import AccountDetailsStep from "./AccountDetails/AccountDetailsStep";
-import ImageStep from "./ImageStep";
 import PersonalDetailsStep from "./PersonalDetails/PersonalDetailsStep";
+import PhotoStep from "./PhotoStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
@@ -28,13 +28,13 @@ const defaultValues: RegisterFormData = {
   age: "",
   email: "",
   password: "",
-  images: [],
+  photos: [],
 };
 
 const steps = [
   { key: "personalDetails", label: "Personal Details" },
   { key: "accountDetails", label: "Account Details" },
-  { key: "images", label: "Images" },
+  { key: "photos", label: "Photos" },
 ];
 
 interface RegisterStepperProps {}
@@ -80,7 +80,7 @@ const RegisterStepper: React.FC<RegisterStepperProps> = () => {
         <RegisterForm onSubmit={form.handleSubmit(onSubmit)}>
           {activeStep === 0 && <PersonalDetailsStep />}
           {activeStep === 1 && <AccountDetailsStep />}
-          {activeStep === 2 && <ImageStep />}
+          {activeStep === 2 && <PhotoStep />}
           {activeStep !== steps.length && (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

@@ -1,5 +1,4 @@
 import { styled } from "@mui/system";
-import React from "react";
 import AgeStep from "./AgeStep";
 import GenderStep from "./GenderStep";
 import NameStep from "./NameStep";

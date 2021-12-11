@@ -4,14 +4,14 @@ export interface RegisterFormData {
   age: string;
   email: string;
   password: string;
-  images: File[];
+  photos: File[];
 }
 
 export interface FirebaseUserData {
   name: string;
   gender: string;
   age: string;
-  images: string[];
+  photos: string[];
 }
 
 export interface LoginFormData {
