@@ -7,10 +7,8 @@ import {
 import { InitialUserData, LoginFormData, RegisterFormData } from "types/auth";
 import { saveUserData, saveUserPhotos } from "./user";
 
-export const INITIAL_DATA = {
-  USER: {
-    DISTANCE: 80,
-  },
+export const INITIAL_USER_DATA = {
+  distance: 80,
 };
 
 export const auth = getAuth();
@@ -34,7 +32,7 @@ export const register = async (registerFormData: RegisterFormData) => {
   if (user) {
     const initialUserData: InitialUserData = {
       ...rest,
-      distance: INITIAL_DATA.USER.DISTANCE,
+      ...INITIAL_USER_DATA,
     };
     await saveUserData(user, initialUserData);
     saveUserPhotos(user, photos);
