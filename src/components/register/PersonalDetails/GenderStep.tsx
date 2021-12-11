@@ -16,6 +16,8 @@ const GenderStep = () => {
 
   return (
     <Controller
+      control={control}
+      name="gender"
       render={({ field }) => (
         <TextField
           id="gender-select"
@@ -34,8 +36,6 @@ const GenderStep = () => {
           ))}
         </TextField>
       )}
-      control={control}
-      name="gender"
     />
   );
 };

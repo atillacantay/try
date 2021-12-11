@@ -4,8 +4,8 @@ import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
 
 const AccountDetails = styled("div")(({ theme }) => ({
-  "& div": {
-    marginBottom: theme.spacing(1),
+  ".MuiFormControl-root": {
+    marginBottom: theme.spacing(2),
   },
 }));
 

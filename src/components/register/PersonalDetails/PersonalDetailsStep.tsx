@@ -5,8 +5,8 @@ import GenderStep from "./GenderStep";
 import NameStep from "./NameStep";
 
 const PersonalDetails = styled("div")(({ theme }) => ({
-  "& div": {
-    marginBottom: theme.spacing(1),
+  ".MuiFormControl-root": {
+    marginBottom: theme.spacing(2),
   },
 }));
 

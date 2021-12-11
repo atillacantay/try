@@ -8,9 +8,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { RegisterFormData } from "types/auth";
 import { registerValidationSchema } from "validations/registerValidationSchema";
-import AccountDetailsStep from "./AccountDetailsStep";
+import AccountDetailsStep from "./AccountDetails/AccountDetailsStep";
 import ImageStep from "./ImageStep";
-import PersonalDetailsStep from "./PersonalDetailsStep";
+import PersonalDetailsStep from "./PersonalDetails/PersonalDetailsStep";
 
 const RegisterStepperRoot = styled("div")(({ theme }) => ({}));
 
@@ -46,9 +46,9 @@ const RegisterStepper: React.FC<RegisterStepperProps> = () => {
 
   const currentValidationSchema = registerValidationSchema[activeStep];
   const form = useForm({
+    mode: "onChange",
     defaultValues,
     resolver: yupResolver(currentValidationSchema),
-    reValidateMode: "onChange",
   });
 
   const handleNext = async () => {
