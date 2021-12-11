@@ -1,5 +1,5 @@
 import { DatePicker, LocalizationProvider } from "@mui/lab";
-import DateAdapter from "@mui/lab/AdapterMoment";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { TextField } from "@mui/material";
 import moment from "moment";
 import { Controller, useFormContext } from "react-hook-form";
@@ -17,11 +17,11 @@ const BirthDateStep = () => {
       control={control}
       name="birth_date"
       render={({ field }) => (
-        <LocalizationProvider dateAdapter={DateAdapter}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label={t("Birth Date")}
             maxDate={moment(Date.now()).subtract(18, "years")}
-            inputFormat={"DD/MM/YYYY"}
+            inputFormat={"dd/MM/yyyy"}
             renderInput={(params) => (
               <TextField
                 {...params}

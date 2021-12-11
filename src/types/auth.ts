@@ -7,6 +7,13 @@ export interface RegisterFormData {
   photos: File[];
 }
 
+export interface InitialUserData {
+  name: string;
+  gender: string;
+  birth_date: Date;
+  distance: number;
+}
+
 export interface FirebaseUserData {
   name: string;
   gender: string;

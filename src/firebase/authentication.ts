@@ -13,8 +13,19 @@ import {
   StorageReference,
   uploadBytes,
 } from "firebase/storage";
-import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
+import {
+  FirebaseUserData,
+  InitialUserData,
+  LoginFormData,
+  RegisterFormData,
+} from "types/auth";
 import { getDetailedLocationObject } from "utils/location";
+
+export const INITIAL_DATA = {
+  USER: {
+    DISTANCE: 80,
+  },
+};
 
 export const auth = getAuth();
 
@@ -35,7 +46,11 @@ export const register = async (registerFormData: RegisterFormData) => {
   );
   const user = userCredential.user;
   if (user) {
-    await saveUserData(user, rest);
+    const initialUserData: InitialUserData = {
+      ...rest,
+      distance: INITIAL_DATA.USER.DISTANCE,
+    };
+    await saveUserData(user, initialUserData);
     saveUserPhotos(user, photos);
   }
 };
@@ -98,7 +113,7 @@ export const saveUserLocation = async (
   location: GeolocationCoordinates
 ) => {
   // await fetch(
-  //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${process.env.REACT_APP_FIREBASE_GOOGLE_API_KEY}`
+  //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${process.env.REACT_APP_FIREBASE_API_KEY}`
   // );
   // TODO: Remove these comments when it's time.
   const detailedLocationObject = getDetailedLocationObject();
