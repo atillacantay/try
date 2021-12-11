@@ -65,9 +65,11 @@ const useProvideAuth = () => {
         setUser({ ...user, ...userExtraData });
         setIsAuthenticated(true);
         setLoadingUser(false);
+        history.push("/app/recs");
       } else {
         resetAuth();
         setLoadingUser(false);
+        history.push("/");
       }
     });
   }, []);
@@ -77,7 +79,6 @@ const useProvideAuth = () => {
     try {
       await register(registerFormData);
       setRegisterSuccess(true);
-      history.push("/");
     } catch (error: any) {
       SnackbarUtils.error(error.message);
     } finally {
@@ -90,7 +91,6 @@ const useProvideAuth = () => {
     try {
       await login(loginFormData);
       setLoginSuccess(true);
-      history.push("/");
     } catch (error: any) {
       SnackbarUtils.error(error.message);
     } finally {
@@ -101,7 +101,6 @@ const useProvideAuth = () => {
   const signOutUser = async () => {
     try {
       await signOut();
-      resetAuth();
     } catch (error: any) {
       SnackbarUtils.error(error.message);
     } finally {
