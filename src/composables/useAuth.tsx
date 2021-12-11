@@ -1,5 +1,6 @@
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { getUserData, login, register, signOut } from "firebase/authentication";
+import { login, register, signOut } from "firebase/authentication";
+import { getUserData } from "firebase/user";
 import React, { createContext, FC, useContext } from "react";
 import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
 import { history } from "utils/history";

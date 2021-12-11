@@ -1,25 +1,11 @@
-import { db, storage } from "firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   signOut as signOutFB,
-  User,
 } from "firebase/auth";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import {
-  getDownloadURL as getDownloadURLFB,
-  ref as storageRef,
-  StorageReference,
-  uploadBytes,
-} from "firebase/storage";
-import {
-  FirebaseUserData,
-  InitialUserData,
-  LoginFormData,
-  RegisterFormData,
-} from "types/auth";
-import { getDetailedLocationObject } from "utils/location";
+import { InitialUserData, LoginFormData, RegisterFormData } from "types/auth";
+import { saveUserData, saveUserPhotos } from "./user";
 
 export const INITIAL_DATA = {
   USER: {
@@ -73,112 +59,4 @@ export const login = async (loginFormData: LoginFormData) => {
  */
 export const signOut = async () => {
   await signOutFB(auth);
-};
-
-/**
- * Get user data from Firestore
- * @param {User} user
- */
-export const getUserData = async (user: User) => {
-  const userRef = doc(db, "users", user.uid);
-  const docSnap = await getDoc(userRef);
-  return docSnap.data() as FirebaseUserData;
-};
-
-/**
- * Save user data in Firestore
- * @param {User} user
- * @param {any} params
- */
-const saveUserData = async (user: User, params: any) => {
-  return await setDoc(doc(db, "users", user.uid), params);
-};
-
-/**
- * Update user data in Firestore
- * @param {User} user
- * @param {any} params
- */
-const updateUserData = async (user: User, params: any) => {
-  return await updateDoc(doc(db, "users", user.uid), params);
-};
-
-/**
- * Save user location in Firestore
- * @param {User} user
- * @param {GeolocationCoordinates} location
- */
-export const saveUserLocation = async (
-  user: User,
-  location: GeolocationCoordinates
-) => {
-  // await fetch(
-  //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${process.env.REACT_APP_FIREBASE_API_KEY}`
-  // );
-  // TODO: Remove these comments when it's time.
-  const detailedLocationObject = getDetailedLocationObject();
-  await updateUserData(user, { location: detailedLocationObject });
-};
-
-/**
- * Get user photos in Firestore
- * @param {User} user
- */
-export const getUserPhotos = async (user: User) => {
-  const userPhotosRef = doc(db, "users", user.uid, "photos");
-  const docSnap = await getDoc(userPhotosRef);
-  return docSnap.data() as string[];
-};
-
-/**
- * Save multiple user photos in Storage
- * @param {User} user
- * @param {File[]} files
- */
-const saveUserPhotos = (user: User, files: File[]) => {
-  Promise.all(files.map((file) => saveUserPhoto(user, file)));
-};
-
-/**
- * Save single user photo in Storage
- * @param {User} user
- * @param {File} file
- */
-const saveUserPhoto = async (user: User, file: File) => {
-  const newPhotoRef = storageRef(
-    storage,
-    `user_photos/${user.uid}/${file.name}`
-  );
-  await uploadImage(newPhotoRef, file);
-  const downloadUrl = await getDownloadURL(newPhotoRef);
-  const userRef = doc(db, "users", user.uid);
-  setDoc(userRef, { photos: arrayUnion(downloadUrl) }, { merge: true });
-};
-
-/**
- * Get download url of a file
- * @param {StorageReference} ref
- */
-const getDownloadURL = async (ref: StorageReference) => {
-  return await getDownloadURLFB(ref)
-    .then((url) => {
-      return url;
-    })
-    .catch((error) => {
-      switch (error.code) {
-        case "storage/object-not-found":
-          return "";
-        default:
-          return "";
-      }
-    });
-};
-
-/**
- * Upload image as bytes in Storage
- * @param {StorageReference} ref
- * @param {File} file
- */
-const uploadImage = async (ref: StorageReference, file: File) => {
-  await uploadBytes(ref, file);
 };

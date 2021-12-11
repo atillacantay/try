@@ -1,4 +1,4 @@
-import { saveUserLocation } from "firebase/authentication";
+import { saveUserLocation } from "firebase/user";
 import React from "react";
 import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 import { useAuth } from "./useAuth";
