@@ -12,6 +12,7 @@ export interface FirebaseUserData {
   gender: string;
   age: string;
   photos: string[];
+  location?: GeolocationCoordinates;
 }
 
 export interface LoginFormData {

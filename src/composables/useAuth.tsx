@@ -8,6 +8,7 @@ import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 type ISuccess = boolean | undefined;
 
 interface AuthContext {
+  loadingUser: boolean;
   isAuthenticated: boolean;
   user: (User & FirebaseUserData) | null;
   registerLoading: boolean;
@@ -21,6 +22,7 @@ interface AuthContext {
 }
 
 const authContextDefaultValues: AuthContext = {
+  loadingUser: false,
   isAuthenticated: false,
   user: null,
   registerLoading: false,
@@ -45,7 +47,7 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [loadingUser, setLoadingUser] = React.useState(false);
+  const [loadingUser, setLoadingUser] = React.useState(true);
   const [user, setUser] = React.useState<(User & FirebaseUserData) | null>(
     null
   );
@@ -61,8 +63,7 @@ const useProvideAuth = () => {
     setLoadingUser(true);
     onAuthStateChanged(getAuthInstance(), async (user) => {
       if (user) {
-        const userExtraData = await getUserData(user);
-        setUser({ ...user, ...userExtraData });
+        await setUserLocalData(user);
         setIsAuthenticated(true);
         setLoadingUser(false);
         history.push("/app/recs");
@@ -73,6 +74,11 @@ const useProvideAuth = () => {
       }
     });
   }, []);
+
+  const setUserLocalData = async (user: User) => {
+    const userExtraData = await getUserData(user);
+    setUser({ ...user, ...userExtraData });
+  };
 
   const registerUser = async (registerFormData: RegisterFormData) => {
     setRegisterLoading(true);
