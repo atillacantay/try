@@ -1,5 +1,6 @@
 import { saveUserLocation } from "firebase/authentication";
 import React from "react";
+import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 import { useAuth } from "./useAuth";
 
 interface UseLocationProps {
@@ -11,9 +12,14 @@ export const useLocation = ({ userLocation }: UseLocationProps) => {
   const [locationError, setLocationError] = React.useState(false);
 
   const saveLocation = React.useCallback(
-    (location: GeolocationPosition) => {
-      if (auth.user && !userLocation) {
-        saveUserLocation(auth.user, location.coords);
+    async (location: GeolocationPosition) => {
+      try {
+        if (auth.user && !userLocation) {
+          await saveUserLocation(auth.user, location.coords);
+        }
+      } catch (error: any) {
+        SnackbarUtils.error(error.message);
+      } finally {
       }
     },
     [auth.user, userLocation]

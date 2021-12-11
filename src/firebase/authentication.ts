@@ -14,7 +14,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
-import { convertToObject } from "utils/common";
+import { getDetailedLocationObject } from "utils/location";
 
 export const auth = getAuth();
 
@@ -97,7 +97,12 @@ export const saveUserLocation = async (
   user: User,
   location: GeolocationCoordinates
 ) => {
-  await updateUserData(user, { location: convertToObject(location) });
+  // await fetch(
+  //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${process.env.REACT_APP_FIREBASE_GOOGLE_API_KEY}`
+  // );
+  // TODO: Removethis comments when it's time.
+  const detailedLocationObject = getDetailedLocationObject();
+  await updateUserData(user, { location: detailedLocationObject });
 };
 
 /**
