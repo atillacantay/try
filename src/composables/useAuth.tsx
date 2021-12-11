@@ -70,7 +70,7 @@ const useProvideAuth = () => {
       } else {
         resetAuth();
         setLoadingUser(false);
-        history.push("/");
+        // history.push("/");
       }
     });
   }, []);

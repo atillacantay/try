@@ -1,7 +1,7 @@
 export interface RegisterFormData {
   name: string;
   gender: string;
-  age: string;
+  birth_date: Date;
   email: string;
   password: string;
   photos: File[];
@@ -10,7 +10,7 @@ export interface RegisterFormData {
 export interface FirebaseUserData {
   name: string;
   gender: string;
-  age: string;
+  birth_date: Date;
   photos: string[];
   location?: GeolocationCoordinates;
 }

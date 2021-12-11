@@ -25,7 +25,7 @@ const RegisterForm = styled("form")(({ theme }) => ({
 const defaultValues: RegisterFormData = {
   name: "",
   gender: "",
-  age: "",
+  birth_date: new Date(0),
   email: "",
   password: "",
   photos: [],

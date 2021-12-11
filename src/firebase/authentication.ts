@@ -22,7 +22,7 @@ export const auth = getAuth();
  * Register user
  * @param {String} name
  * @param {String} gender
- * @param {String} age
+ * @param {String} birth_date
  * @param {String} email
  * @param {File[]} photos
  */

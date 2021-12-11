@@ -5,7 +5,7 @@ export const registerValidationSchema = [
   yup.object({
     name: yup.string().required(),
     gender: yup.string().required(),
-    age: yup.number().required(),
+    birth_date: yup.date().required(),
   }),
   //validation for step2
   yup.object({
