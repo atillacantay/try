@@ -560,6 +560,7 @@ const api_results = [
 
 // TODO: Remove the default (mock) value when it's time.
 export const getDetailedLocationObject = (results = api_results) => {
+  let district = "";
   let city = "";
   let country = "";
   let formatted_address = "";
@@ -569,12 +570,20 @@ export const getDetailedLocationObject = (results = api_results) => {
     // Getting address components
     for (var i = 0; i < results[0].address_components.length; i++) {
       for (var b = 0; b < results[0].address_components[i].types.length; b++) {
+        // Getting district / county
+        if (
+          ["administrative_area_level_2"].includes(
+            results[0].address_components[i].types[b]
+          )
+        ) {
+          district = results[0].address_components[i].long_name;
+          break;
+        }
         // Getting city / state
         if (
-          [
-            "administrative_area_level_1",
-            "administrative_area_level_2",
-          ].includes(results[0].address_components[i].types[b])
+          ["administrative_area_level_1"].includes(
+            results[0].address_components[i].types[b]
+          )
         ) {
           city = results[0].address_components[i].long_name;
           break;
@@ -596,6 +605,7 @@ export const getDetailedLocationObject = (results = api_results) => {
     coordinates = results[0].geometry.location;
 
     return {
+      district,
       city,
       country,
       formatted_address,
