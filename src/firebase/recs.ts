@@ -10,7 +10,6 @@ import {
   startAt,
 } from "firebase/firestore";
 import { distanceBetween, geohashQueryBounds } from "geofire-common";
-import i18n from "i18next";
 import { Location } from "types/location";
 import { CustomUser } from "types/user";
 
@@ -22,8 +21,6 @@ export const getRecsFB = async (user: CustomUser) => {
   const location = user?.location;
   if (location) {
     return await getRecsByDistance(location, user.distance);
-  } else {
-    throw Error(i18n.t("Location Error"));
   }
 };
 
