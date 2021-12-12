@@ -1,3 +1,5 @@
+import { Location } from "./location";
+
 export interface RegisterFormData {
   name: string;
   gender: string;
@@ -19,7 +21,8 @@ export interface FirebaseUserData {
   gender: string;
   birth_date: Date;
   photos: string[];
-  location?: GeolocationCoordinates;
+  location?: Location;
+  distance: number;
 }
 
 export interface LoginFormData {

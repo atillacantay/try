@@ -2,7 +2,8 @@ import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { login, register, signOut } from "firebase/authentication";
 import { getUserData } from "firebase/user";
 import React, { createContext, FC, useContext } from "react";
-import { FirebaseUserData, LoginFormData, RegisterFormData } from "types/auth";
+import { LoginFormData, RegisterFormData } from "types/auth";
+import { CustomUser } from "types/user";
 import { history } from "utils/history";
 import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 
@@ -11,7 +12,7 @@ type ISuccess = boolean | undefined;
 interface AuthContext {
   loadingUser: boolean;
   isAuthenticated: boolean;
-  user: (User & FirebaseUserData) | null;
+  user: CustomUser;
   registerLoading: boolean;
   loginLoading: boolean;
   registerSuccess?: boolean;
@@ -49,9 +50,7 @@ export const useAuth = () => {
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [loadingUser, setLoadingUser] = React.useState(true);
-  const [user, setUser] = React.useState<(User & FirebaseUserData) | null>(
-    null
-  );
+  const [user, setUser] = React.useState<CustomUser>(null);
 
   const [registerLoading, setRegisterLoading] = React.useState(false);
   const [registerSuccess, setRegisterSuccess] = React.useState<ISuccess>();

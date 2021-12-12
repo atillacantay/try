@@ -1,3 +1,4 @@
+import { INITIAL_USER_DATA } from "constants/user";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -6,10 +7,6 @@ import {
 } from "firebase/auth";
 import { InitialUserData, LoginFormData, RegisterFormData } from "types/auth";
 import { saveUserData, saveUserPhotos } from "./user";
-
-export const INITIAL_USER_DATA = {
-  distance: 80,
-};
 
 export const auth = getAuth();
 

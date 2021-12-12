@@ -1,3 +1,4 @@
+import { geohashForLocation } from "geofire-common";
 import i18n from "i18next";
 
 const api_results = [
@@ -566,6 +567,7 @@ export const getDetailedLocationObject = (results = api_results) => {
   let formatted_address = "";
   let place_id = "";
   let coordinates = {};
+  let geohash = "";
   try {
     // Getting address components
     for (var i = 0; i < results[0].address_components.length; i++) {
@@ -604,6 +606,12 @@ export const getDetailedLocationObject = (results = api_results) => {
     // Getting geometry properties (lng, lat...)
     coordinates = results[0].geometry.location;
 
+    // Setting geohash value
+    geohash = geohashForLocation([
+      results[0].geometry.location.lat,
+      results[0].geometry.location.lng,
+    ]);
+
     return {
       district,
       city,
@@ -611,8 +619,17 @@ export const getDetailedLocationObject = (results = api_results) => {
       formatted_address,
       place_id,
       coordinates,
+      geohash,
     };
   } catch (error) {
     throw Error(i18n.t("Location Error"));
   }
+};
+
+export const getCoordinatesAtDistanceOfRange = (
+  longitude: number,
+  latitude: number,
+  distance: number // KM
+) => {
+  return {};
 };

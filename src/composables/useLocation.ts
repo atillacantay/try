@@ -1,10 +1,11 @@
 import { saveUserLocation } from "firebase/user";
 import React from "react";
+import { Location } from "types/location";
 import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 import { useAuth } from "./useAuth";
 
 interface UseLocationProps {
-  userLocation?: GeolocationCoordinates;
+  userLocation?: Location;
 }
 
 export const useLocation = ({ userLocation }: UseLocationProps) => {
