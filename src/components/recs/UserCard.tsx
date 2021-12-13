@@ -38,8 +38,8 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
       onSwipe={(dir) => swiped(dir, user.name)}
       onCardLeftScreen={() => outOfFrame(user.name)}
     >
-      <UserCardWrapper>
-        <UserPhotos photos={user.photos} />
+      <UserCardWrapper elevation={4}>
+        <UserPhotos photos={user.photos} alt={user.name} />
         <CardActions></CardActions>
       </UserCardWrapper>
     </TinderCardWrapper>

@@ -5,14 +5,16 @@ import React, { FC } from "react";
 
 const UserPhoto = styled("img")(({ theme }) => ({
   width: "100%",
-  objectFit: "contain",
+  height: "400px",
+  objectFit: "cover",
 }));
 
 interface UserPhotosProps {
   photos: string[];
+  alt: string;
 }
 
-const UserPhotos: FC<UserPhotosProps> = ({ photos }) => {
+const UserPhotos: FC<UserPhotosProps> = ({ photos, alt }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = photos.length;
 
@@ -26,7 +28,7 @@ const UserPhotos: FC<UserPhotosProps> = ({ photos }) => {
 
   return (
     <div>
-      <UserPhoto src={photos[activeStep]} alt={photos[activeStep]} />
+      <UserPhoto src={photos[activeStep]} alt={alt} />
       <MobileStepper
         variant="dots"
         steps={maxSteps}
