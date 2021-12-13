@@ -1,28 +1,32 @@
 import { getRecsFB } from "firebase/recs";
-import { useEffect } from "react";
+import React from "react";
 import { CustomUser } from "types/user";
 import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
+import { useAuth } from "./useAuth";
 
-interface UseRecsProps {
-  user: CustomUser;
-}
+export const useRecs = () => {
+  const { user } = useAuth();
+  const [recs, setRecs] = React.useState<CustomUser[] | undefined>([]);
+  const [loadingRecs, setLoadingRecs] = React.useState(false);
 
-export const useRecs = ({ user }: UseRecsProps) => {
-  useEffect(() => {
-    if (user) {
+  React.useEffect(() => {
+    const getRecs = async (user: CustomUser) => {
+      setLoadingRecs(true);
+      try {
+        const recs = await getRecsFB(user);
+        console.log(recs);
+        setRecs(recs);
+      } catch (error: any) {
+        SnackbarUtils.error(error.message);
+      } finally {
+        setLoadingRecs(false);
+      }
+    };
+
+    if (user && user.location) {
       getRecs(user);
     }
-  }, [user]);
+  }, [user, user?.location]);
 
-  const getRecs = async (user: CustomUser) => {
-    try {
-      const recs = await getRecsFB(user);
-      // console.log(recs);
-    } catch (error: any) {
-      SnackbarUtils.error(error.message);
-    } finally {
-    }
-  };
-
-  return {};
+  return { recs, loadingRecs };
 };

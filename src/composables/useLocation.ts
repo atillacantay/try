@@ -1,29 +1,26 @@
 import { saveUserLocation } from "firebase/user";
+import i18n from "i18next";
 import React from "react";
-import { Location } from "types/location";
 import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 import { useAuth } from "./useAuth";
 
-interface UseLocationProps {
-  userLocation?: Location;
-}
-
-export const useLocation = ({ userLocation }: UseLocationProps) => {
+export const useLocation = () => {
   const auth = useAuth();
   const [locationError, setLocationError] = React.useState(false);
 
   const saveLocation = React.useCallback(
     async (location: GeolocationPosition) => {
       try {
-        if (auth.user && !userLocation) {
+        if (auth.user && !auth.user.location) {
           await saveUserLocation(auth.user, location.coords);
+          auth.setUserLocalData(auth.user);
         }
       } catch (error: any) {
         SnackbarUtils.error(error.message);
       } finally {
       }
     },
-    [auth.user, userLocation]
+    [auth]
   );
 
   const getLocation = React.useCallback(() => {
@@ -31,8 +28,10 @@ export const useLocation = ({ userLocation }: UseLocationProps) => {
       function (location) {
         saveLocation(location);
       },
-      function (error) {
-        console.log(error);
+      function () {
+        SnackbarUtils.error(
+          i18n.t("You need to enable location services to use application")
+        );
         setLocationError(true);
       }
     );

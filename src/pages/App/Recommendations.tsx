@@ -1,13 +1,14 @@
-import { useAuth } from "composables/useAuth";
+import UserCards from "components/recs/UserCards";
 import { useLocation } from "composables/useLocation";
-import { useRecs } from "composables/useRecs";
 
 const Recommendations = () => {
-  const { user } = useAuth();
-  useLocation({ userLocation: user?.location });
-  useRecs({ user });
+  const { locationError } = useLocation();
 
-  return <div>Recommendations</div>;
+  return (
+    <div>
+      <UserCards />
+    </div>
+  );
 };
 
 export default Recommendations;

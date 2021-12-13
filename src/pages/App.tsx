@@ -1,7 +1,7 @@
 import RequireAuth from "components/RequireAuth";
 import { AuthProvider } from "composables/useAuth";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
+import AppLayout from "../layouts/App";
 import MainLayout from "../layouts/Main";
 import Recommendations from "./App/Recommendations";
 import Landing from "./Landing";
@@ -11,11 +11,13 @@ import Register from "./Register";
 const App = () => {
   return (
     <AuthProvider>
-      <MainLayout>
-        <Routes>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+        </Route>
+        <Route path="/app" element={<AppLayout />}>
           <Route
             path="/app/recs"
             element={
@@ -24,8 +26,8 @@ const App = () => {
               </RequireAuth>
             }
           />
-        </Routes>
-      </MainLayout>
+        </Route>
+      </Routes>
     </AuthProvider>
   );
 };

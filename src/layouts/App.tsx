@@ -1,17 +1,21 @@
-import { Container } from "@mui/material";
+import { styled } from "@mui/system";
 import Header from "components/Header";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const Main = () => {
+const InnerLayout = styled("div")(({ theme }) => ({
+  paddingTop: theme.spacing(2),
+}));
+
+const App = () => {
   return (
     <React.Fragment>
       <Header />
-      <Container maxWidth="md">
+      <InnerLayout>
         <Outlet />
-      </Container>
+      </InnerLayout>
     </React.Fragment>
   );
 };
 
-export default Main;
+export default App;

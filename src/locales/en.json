@@ -17,5 +17,6 @@
     "Next": "Next",
     "Register": "Register",
     "Back": "Back",
-    "Location Error": "Location Error"
+    "Location Error": "Location Error",
+    "You need to enable location services to use application": "You need to enable location services to use application"
 }

@@ -77,6 +77,6 @@ export const getRecsByDistance = async (
       }
     });
 
-    return matchingDocs.map((doc) => doc.data());
+    return matchingDocs.map((doc) => doc.data() as CustomUser);
   });
 };

@@ -1,4 +1,4 @@
 import { User } from "firebase/auth";
 import { FirebaseUserData } from "./auth";
 
-export type CustomUser = (User & FirebaseUserData) | null;
+export type CustomUser = User & FirebaseUserData;

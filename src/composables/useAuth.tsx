@@ -12,12 +12,13 @@ type ISuccess = boolean | undefined;
 interface AuthContext {
   loadingUser: boolean;
   isAuthenticated: boolean;
-  user: CustomUser;
+  user: CustomUser | null;
   registerLoading: boolean;
   loginLoading: boolean;
   registerSuccess?: boolean;
   loginSuccess?: boolean;
   getAuthInstance: () => void;
+  setUserLocalData: (user: User) => void;
   registerUser: (registerFormData: RegisterFormData) => void;
   loginUser: (loginFormData: LoginFormData) => void;
   signOutUser: () => void;
@@ -30,6 +31,7 @@ const authContextDefaultValues: AuthContext = {
   registerLoading: false,
   loginLoading: false,
   getAuthInstance: () => {},
+  setUserLocalData: () => {},
   registerUser: () => {},
   loginUser: () => {},
   signOutUser: () => {},
@@ -50,7 +52,7 @@ export const useAuth = () => {
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [loadingUser, setLoadingUser] = React.useState(true);
-  const [user, setUser] = React.useState<CustomUser>(null);
+  const [user, setUser] = React.useState<CustomUser | null>(null);
 
   const [registerLoading, setRegisterLoading] = React.useState(false);
   const [registerSuccess, setRegisterSuccess] = React.useState<ISuccess>();
@@ -127,6 +129,7 @@ const useProvideAuth = () => {
     loginLoading,
     loginSuccess,
     getAuthInstance,
+    setUserLocalData,
     registerUser,
     loginUser,
     signOutUser,
