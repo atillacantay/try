@@ -66,8 +66,8 @@ export const getUserPhotos = async (user: User) => {
  * @param {User} user
  * @param {File[]} files
  */
-export const saveUserPhotos = (user: User, files: File[]) => {
-  Promise.all(files.map((file) => saveUserPhoto(user, file)));
+export const saveUserPhotos = async (user: User, files: File[]) => {
+  await Promise.all(files.map((file) => saveUserPhoto(user, file)));
 };
 
 /**
