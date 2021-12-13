@@ -12,11 +12,7 @@ export const auth = getAuth();
 
 /**
  * Register user
- * @param {String} name
- * @param {String} gender
- * @param {String} birth_date
- * @param {String} email
- * @param {File[]} photos
+ * @param {RegisterFormData} registerFormData
  */
 export const register = async (registerFormData: RegisterFormData) => {
   const { email, password, photos, ...rest } = registerFormData;
@@ -28,6 +24,7 @@ export const register = async (registerFormData: RegisterFormData) => {
   const user = userCredential.user;
   if (user) {
     const initialUserData: InitialUserData = {
+      uid: user.uid,
       ...rest,
       ...INITIAL_USER_DATA,
     };
@@ -38,8 +35,7 @@ export const register = async (registerFormData: RegisterFormData) => {
 
 /**
  * Login user
- * @param {String} email
- * @param {String} password
+ * @param {LoginFormData} loginFormData
  */
 export const login = async (loginFormData: LoginFormData) => {
   await signInWithEmailAndPassword(

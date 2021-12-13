@@ -26,6 +26,7 @@ const defaultValues: RegisterFormData = {
   name: "",
   gender: "",
   birth_date: new Date(0),
+  genderFilter: "",
   email: "",
   password: "",
   photos: [],

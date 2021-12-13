@@ -1,5 +1,6 @@
 import { styled } from "@mui/system";
 import BirthDateStep from "./BirthDateStep";
+import GenderFilterStep from "./GenderFilterStep";
 import GenderStep from "./GenderStep";
 import NameStep from "./NameStep";
 
@@ -15,6 +16,7 @@ const PersonalDetailsStep = () => {
       <NameStep />
       <GenderStep />
       <BirthDateStep />
+      <GenderFilterStep />
     </PersonalDetails>
   );
 };

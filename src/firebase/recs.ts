@@ -8,6 +8,7 @@ import {
   query,
   QueryDocumentSnapshot,
   startAt,
+  where,
 } from "firebase/firestore";
 import { distanceBetween, geohashQueryBounds } from "geofire-common";
 import { Location } from "types/location";
@@ -20,13 +21,14 @@ import { CustomUser } from "types/user";
 export const getRecsFB = async (user: CustomUser) => {
   const location = user?.location;
   if (location) {
-    return await getRecsByDistance(location, user.distance);
+    return await getRecsByDistance(location, user.distance, user);
   }
 };
 
 export const getRecsByDistance = async (
   location: Location,
-  distance: number
+  distance: number,
+  user: CustomUser
 ) => {
   const matchingDocs: QueryDocumentSnapshot<DocumentData>[] = [];
 
@@ -44,6 +46,7 @@ export const getRecsByDistance = async (
     const usersRef = collection(db, "users");
     const q = query(
       usersRef,
+      where("genderFilter", "==", user?.genderFilter),
       orderBy("location.geohash"),
       startAt(b[0]),
       endAt(b[1])
