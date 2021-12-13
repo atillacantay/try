@@ -46,8 +46,7 @@ export const getRecsByDistance = async (
     const usersRef = collection(db, "users");
     const q = query(
       usersRef,
-      where("genderFilter", "==", user.genderFilter),
-      orderBy("uid"),
+      where("gender", "==", user.genderFilter),
       orderBy("location.geohash"),
       startAt(b[0]),
       endAt(b[1])
