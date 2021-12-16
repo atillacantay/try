@@ -9,10 +9,10 @@ export const useLocation = () => {
   const [locationError, setLocationError] = React.useState(false);
 
   const saveLocation = React.useCallback(
-    async (location: GeolocationPosition) => {
+    async (location: GeolocationCoordinates) => {
       try {
-        if (auth.user && !auth.user.location) {
-          await saveUserLocation(auth.user, location.coords);
+        if (auth.user) {
+          await saveUserLocation(auth.user, location);
           auth.setUserLocalData(auth.user);
         }
       } catch (error: any) {
@@ -23,25 +23,26 @@ export const useLocation = () => {
     [auth]
   );
 
-  const getLocation = React.useCallback(() => {
-    navigator.geolocation.getCurrentPosition(
-      function (location) {
-        saveLocation(location);
-      },
-      function () {
-        SnackbarUtils.error(
-          i18n.t("You need to enable location services to use application")
-        );
-        setLocationError(true);
-      }
+  const getLocationInfo = () => {
+    return new Promise<GeolocationCoordinates>((res, rej) =>
+      navigator.geolocation.getCurrentPosition((position) => res(position.coords), err => rej(err))
     );
-  }, [saveLocation]);
+  }
 
   React.useEffect(() => {
-    if (auth.isAuthenticated) {
-      getLocation();
+    if (auth.user?.location) {
+      return;
     }
-  }, [getLocation, auth.isAuthenticated]);
 
-  return { locationError, getLocation, saveLocation };
+    getLocationInfo().then(location => {
+      saveLocation(location);
+    }).catch(err => {
+      setLocationError(true);
+      SnackbarUtils.error(
+        i18n.t("You need to enable location services to use application")
+      );
+    });
+  }, [auth.user?.location, saveLocation]);
+
+  return { locationError, getLocationInfo, saveLocation };
 };

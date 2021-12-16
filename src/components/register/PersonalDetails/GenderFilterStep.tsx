@@ -1,8 +1,9 @@
 import {
   FormControl,
   FormHelperText,
+  FormLabel,
   ToggleButton,
-  ToggleButtonGroup,
+  ToggleButtonGroup
 } from "@mui/material";
 import { GENDERS } from "constants/user";
 import { Controller, useFormContext } from "react-hook-form";
@@ -21,6 +22,7 @@ const GenderFilterStep = () => {
       control={control}
       render={({ field }) => (
         <FormControl error={Boolean(errors.genderFilter)}>
+          <FormLabel>{t('Show me')}</FormLabel>
           <ToggleButtonGroup color="primary" exclusive {...field}>
             {GENDERS.map((option) => (
               <ToggleButton key={option.key} value={option.key}>

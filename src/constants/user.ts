@@ -1,4 +1,4 @@
-export const INITIAL_USER_DATA = {
+export const CONSTANT_INITIAL_USER_DATA = {
   distance: 80,
 };
 

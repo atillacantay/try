@@ -10,8 +10,9 @@ export interface RegisterFormData {
   photos: File[];
 }
 
-export interface InitialUserData {
+export interface InitialUserDataOnRegistration {
   uid: string;
+  email: string;
   name: string;
   gender: string;
   birth_date: Date;

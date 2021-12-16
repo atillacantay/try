@@ -1,11 +1,11 @@
-import { INITIAL_USER_DATA } from "constants/user";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-  signOut as signOutFB,
+  signOut as signOutFB
 } from "firebase/auth";
-import { InitialUserData, LoginFormData, RegisterFormData } from "types/auth";
+import { LoginFormData, RegisterFormData } from "types/auth";
+import { getInitialUserData } from "utils/user";
 import { saveUserData, saveUserPhotos } from "./user";
 
 export const auth = getAuth();
@@ -15,7 +15,7 @@ export const auth = getAuth();
  * @param {RegisterFormData} registerFormData
  */
 export const register = async (registerFormData: RegisterFormData) => {
-  const { email, password, photos, ...rest } = registerFormData;
+  const { email, password, photos } = registerFormData;
   const userCredential = await createUserWithEmailAndPassword(
     auth,
     email,
@@ -23,12 +23,8 @@ export const register = async (registerFormData: RegisterFormData) => {
   );
   const user = userCredential.user;
   if (user) {
-    const initialUserData: InitialUserData = {
-      uid: user.uid,
-      ...rest,
-      ...INITIAL_USER_DATA,
-    };
-    await saveUserData(user, initialUserData);
+    const initialUserDataOnRegistration = getInitialUserData(user, registerFormData);
+    await saveUserData(user, initialUserDataOnRegistration);
     saveUserPhotos(user, photos);
   }
 };

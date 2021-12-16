@@ -10,7 +10,7 @@ import SnackbarUtils from "utils/SnackbarUtilsConfigurator";
 type ISuccess = boolean | undefined;
 
 interface AuthContext {
-  loadingUser: boolean;
+  loadingUserData: boolean;
   isAuthenticated: boolean;
   user: CustomUser | null;
   registerLoading: boolean;
@@ -25,23 +25,23 @@ interface AuthContext {
 }
 
 const authContextDefaultValues: AuthContext = {
-  loadingUser: false,
+  loadingUserData: false,
   isAuthenticated: false,
   user: null,
   registerLoading: false,
   loginLoading: false,
-  getAuthInstance: () => {},
-  setUserLocalData: () => {},
-  registerUser: () => {},
-  loginUser: () => {},
-  signOutUser: () => {},
+  getAuthInstance: () => { },
+  setUserLocalData: () => { },
+  registerUser: () => { },
+  loginUser: () => { },
+  signOutUser: () => { },
 };
 
 const authContext = createContext<AuthContext>(authContextDefaultValues);
 
 export const AuthProvider: FC = ({ children }) => {
   const auth = useProvideAuth();
-  if (auth.loadingUser) return null;
+  if (auth.loadingUserData) return null;
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
 
@@ -51,7 +51,7 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [loadingUser, setLoadingUser] = React.useState(true);
+  const [loadingUserData, setLoadingUserData] = React.useState(true);
   const [user, setUser] = React.useState<CustomUser | null>(null);
 
   const [registerLoading, setRegisterLoading] = React.useState(false);
@@ -62,16 +62,16 @@ const useProvideAuth = () => {
   const getAuthInstance = () => getAuth();
 
   React.useEffect(() => {
-    setLoadingUser(true);
+    setLoadingUserData(true);
     onAuthStateChanged(getAuthInstance(), async (user) => {
       if (user) {
         await setUserLocalData(user);
         setIsAuthenticated(true);
-        setLoadingUser(false);
+        setLoadingUserData(false);
         history.push("/app/recs");
       } else {
         resetAuth();
-        setLoadingUser(false);
+        setLoadingUserData(false);
         // history.push("/");
       }
     });
@@ -121,7 +121,7 @@ const useProvideAuth = () => {
   };
 
   return {
-    loadingUser,
+    loadingUserData,
     isAuthenticated,
     user,
     registerLoading,
