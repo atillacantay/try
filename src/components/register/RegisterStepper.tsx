@@ -38,7 +38,7 @@ const steps = [
   { key: "photos", label: "Photos" },
 ];
 
-interface RegisterStepperProps {}
+interface RegisterStepperProps { }
 
 const RegisterStepper: React.FC<RegisterStepperProps> = () => {
   const { registerLoading, registerUser } = useAuth();
@@ -60,7 +60,9 @@ const RegisterStepper: React.FC<RegisterStepperProps> = () => {
   const handleBack = () =>
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
 
-  const onSubmit = (data: RegisterFormData) => registerUser(data);
+  const onSubmit = async (data: RegisterFormData) => {
+    await registerUser(data);
+  }
 
   return (
     <RegisterStepperRoot sx={{ width: "100%" }}>

@@ -18,10 +18,10 @@ interface AuthContext {
   registerSuccess?: boolean;
   loginSuccess?: boolean;
   getAuthInstance: () => void;
-  setUserLocalData: (user: User) => void;
-  registerUser: (registerFormData: RegisterFormData) => void;
-  loginUser: (loginFormData: LoginFormData) => void;
-  signOutUser: () => void;
+  setUserLocalData: (user: User) => Promise<void>;
+  registerUser: (registerFormData: RegisterFormData) => Promise<void>;
+  loginUser: (loginFormData: LoginFormData) => Promise<void>;
+  signOutUser: () => Promise<void>;
 }
 
 const authContextDefaultValues: AuthContext = {
@@ -31,10 +31,10 @@ const authContextDefaultValues: AuthContext = {
   registerLoading: false,
   loginLoading: false,
   getAuthInstance: () => { },
-  setUserLocalData: () => { },
-  registerUser: () => { },
-  loginUser: () => { },
-  signOutUser: () => { },
+  setUserLocalData: () => Promise.resolve(),
+  registerUser: () => Promise.resolve(),
+  loginUser: () => Promise.resolve(),
+  signOutUser: () => Promise.resolve(),
 };
 
 const authContext = createContext<AuthContext>(authContextDefaultValues);
@@ -59,11 +59,11 @@ const useProvideAuth = () => {
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginSuccess, setLoginSuccess] = React.useState<ISuccess>();
 
-  const getAuthInstance = () => getAuth();
+  const getAuthInstance = React.useCallback(() => getAuth(), []);
 
   React.useEffect(() => {
-    setLoadingUserData(true);
-    onAuthStateChanged(getAuthInstance(), async (user) => {
+    const unsubscribe = onAuthStateChanged(getAuthInstance(), async (user) => {
+      setLoadingUserData(true);
       if (user) {
         await setUserLocalData(user);
         setIsAuthenticated(true);
@@ -75,11 +75,14 @@ const useProvideAuth = () => {
         // history.push("/");
       }
     });
-  }, []);
+    return () => {
+      unsubscribe();
+    }
+  }, [getAuthInstance]);
 
   const setUserLocalData = async (user: User) => {
-    const userExtraData = await getUserData(user);
-    setUser({ ...user, ...userExtraData });
+    const customUserData = await getUserData(user);
+    setUser({ ...user, ...customUserData });
   };
 
   const registerUser = async (registerFormData: RegisterFormData) => {
@@ -109,6 +112,7 @@ const useProvideAuth = () => {
   const signOutUser = async () => {
     try {
       await signOut();
+      history.push('/');
     } catch (error: any) {
       SnackbarUtils.error(error.message);
     } finally {

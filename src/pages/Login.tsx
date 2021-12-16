@@ -32,8 +32,8 @@ const Login = () => {
     resolver: yupResolver(loginValidationSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    loginUser(data);
+  const onSubmit = async (data: LoginFormData) => {
+    await loginUser(data);
   };
 
   return (

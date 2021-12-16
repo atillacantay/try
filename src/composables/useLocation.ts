@@ -13,7 +13,7 @@ export const useLocation = () => {
       try {
         if (auth.user) {
           await saveUserLocation(auth.user, location);
-          auth.setUserLocalData(auth.user);
+          await auth.setUserLocalData(auth.user);
         }
       } catch (error: any) {
         SnackbarUtils.error(error.message);
@@ -30,7 +30,7 @@ export const useLocation = () => {
   }
 
   React.useEffect(() => {
-    if (auth.user?.location) {
+    if (!auth.user || auth.user?.location) {
       return;
     }
 
@@ -42,7 +42,7 @@ export const useLocation = () => {
         i18n.t("You need to enable location services to use application")
       );
     });
-  }, [auth.user?.location, saveLocation]);
+  }, [auth.user, auth.user?.location, saveLocation]);
 
   return { locationError, getLocationInfo, saveLocation };
 };
